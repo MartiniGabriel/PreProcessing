@@ -3,9 +3,6 @@ def my_function():
     return 1
 
 def installModules():
-    !pip install mysql-connector-python
-    !pip install pymysql
-
     import pymysql
     import pandas as pd
 
