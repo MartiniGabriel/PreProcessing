@@ -11,7 +11,7 @@ def installModules():
     #Exibir todas as colunas ao visualizar dataframes
     pd.set_option('display.max_columns', None)
 
-def fetch_data_in_batches(query, host, port, username, password, db, batch_size=10000):
+def fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME, batch_size=10000):
     connection = None
     df_list = []
 
