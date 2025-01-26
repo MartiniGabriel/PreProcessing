@@ -1,4 +1,5 @@
 import pymysql
+import pandas as pd
 
 def my_function():
     print("Hello from my_function in my_module!")
