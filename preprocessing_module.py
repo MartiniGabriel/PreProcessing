@@ -119,6 +119,14 @@ def remove_outliers(df):
     df = df[df['Plaquetas'] <= 1300]
     return df
 
+def createSubsets(df):
+    X = df.drop(['Classe A1c', 'Classe A1c2', 'A1C'], axis=1)
+    y = df['Classe A1c']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+    return X_train, X_test, y_train, y_test
+
 def get_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
@@ -126,4 +134,5 @@ def get_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_N
     df = fix_data_types(df)
     df = remove_unusual_variables(df)
     df = remove_outliers(df)
-    return df
+    X_train, X_test, y_train, y_test = createSubsets(df)
+    return X_train, X_test, y_train, y_test
