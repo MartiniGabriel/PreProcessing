@@ -1,6 +1,6 @@
 import pymysql
 import pandas as pd
-
+from sklearn.model_selection import train_test_split
 
 def installModules():
     import pymysql
@@ -136,3 +136,12 @@ def get_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_N
     df = remove_outliers(df)
     X_train, X_test, y_train, y_test = createSubsets(df)
     return X_train, X_test, y_train, y_test
+
+def get_raw_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+    installModules()
+    df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+    df = clean_data(df)
+    df = fix_data_types(df)
+    df = remove_unusual_variables(df)
+    df = remove_outliers(df)
+    return df
