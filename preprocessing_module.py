@@ -147,7 +147,7 @@ def get_train_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD
     df = remove_outliers(df)
     X_train, _, y_train, _ = createSubsets(df)
     print("teste1")
-    X_train_, X_test_, y_train_, y_test_ = train_test_split(X_train, y_train, test_size=0.2, random_state=42, stratify=y_train)
+    X_train_, X_test_, y_train_, y_test_ = createSubsets(pd.concat([X_train, y_train]))
     print("teste2")
     return X_train_, X_test_, y_train_, y_test_
 
