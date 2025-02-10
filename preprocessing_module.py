@@ -137,6 +137,18 @@ def get_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_N
     X_train, X_test, y_train, y_test = createSubsets(df)
     return X_train, X_test, y_train, y_test
 
+#Função get_train_data criada para uso apenas no Spotchecking. Retorna os conjuntos de treino e teste, utilizando apenas o conjunto de dados oficial de treino. Busca evitar vazamento de dados.
+def get_train_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+    installModules()
+    df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+    df = clean_data(df)
+    df = fix_data_types(df)
+    df = remove_unusual_variables(df)
+    df = remove_outliers(df)
+    X_train, _, y_train, _ = createSubsets(df)
+    X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.2, random_state=42, stratify=y)
+    return X_train, X_test, y_train, y_test
+
 def get_raw_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
