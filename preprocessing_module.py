@@ -124,7 +124,7 @@ def createSubsets(df):
     y = df['Classe A1c']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-
+    print("teste")
     return X_train, X_test, y_train, y_test
 
 def get_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
