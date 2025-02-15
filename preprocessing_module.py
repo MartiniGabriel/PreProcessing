@@ -121,7 +121,7 @@ def remove_outliers(df):
 
 def createSubsets(df):
     X = df.drop(['Classe A1c', 'Classe A1c2', 'A1C'], axis=1)
-    y = df['Classe A1c']
+    y = df['Classe A1c2']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
