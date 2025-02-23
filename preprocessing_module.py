@@ -119,13 +119,13 @@ def remove_outliers(df):
     df = df[df['Plaquetas'] <= 1300]
     return df
 
-def createTrainTestSubsets(df):
+def createTrainValidationSubsets(df):
     X = df.drop(['Classe A1c', 'Classe A1c2', 'A1C'], axis=1)
     y = df['Classe A1c2']
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-    return X_train, X_test, y_train, y_test
+    return X_train, X_val, y_train, y_val
 
 def createTrainValidationTestSubsets(df):
     X = df.drop(['Classe A1c', 'Classe A1c2', 'A1C'], axis=1)
@@ -147,8 +147,8 @@ def get_data_train_test(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PAS
     df = remove_unusual_variables(df)
     df = remove_outliers(df)
 
-    X_train, X_test, y_train, y_test = createTrainTestSubsets(df)
-    return X_train, X_test, y_train, y_test
+    X_train, X_val, y_train, y_val = createTrainValidationSubsets(df)
+    return  X_train, X_val, y_train, y_val
 
 def get_data_train_validation_test(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
@@ -170,9 +170,9 @@ def get_train_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD
     df = fix_data_types(df)
     df = remove_unusual_variables(df)
     df = remove_outliers(df)
-    X_train, _, y_train, _ = createTrainTestSubsets(df)
+    X_train, _, y_train, _ = createTrainValidationSubsets(df)
 
-    X_train_, X_test_, y_train_, y_test_ = createTrainTestSubsets(pd.concat([X_train, y_train]))
+    X_train_, X_test_, y_train_, y_test_ = createTrainValidationSubsets(pd.concat([X_train, y_train]))
 
     return X_train_, X_test_, y_train_, y_test_
 
