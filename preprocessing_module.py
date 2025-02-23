@@ -139,7 +139,7 @@ def createTrainValidationTestSubsets(df):
 
     return X_train, X_val, X_test, y_train, y_val, y_test
 
-def get_data_train_test(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+def get_data_train_validation(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
     df = clean_data(df)
