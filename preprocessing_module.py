@@ -119,50 +119,22 @@ def remove_outliers(df):
     df = df[df['Plaquetas'] <= 1300]
     return df
 
-def createTrainValidationSubsets(df):
+def createTrainSubset(df):
     X = df.drop(['Classe A1c', 'Classe A1c2', 'A1C'], axis=1)
     y = df['Classe A1c2']
 
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-    return X_train, X_val, y_train, y_val
+    return X_train, y_train
 
-def createTrainValidationTestSubsets(df):
+def createTrainTestSubsets(df):
     X = df.drop(['Classe A1c', 'Classe A1c2', 'A1C'], axis=1)
     y = df['Classe A1c2']
 
-    #Divide Treino e teste
-    X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     
-    # Depois, dividir o conjunto de treino em treino e validação
-    X_train, X_val, y_train, y_val = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42, stratify=y_temp)
+    return X_train, X_test, y_train, y_test
 
-    return X_train, X_val, X_test, y_train, y_val, y_test
-
-def get_data_train_validation(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
-    installModules()
-    df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
-    df = clean_data(df)
-    df = fix_data_types(df)
-    df = remove_unusual_variables(df)
-    df = remove_outliers(df)
-
-    X_train, X_val, y_train, y_val = createTrainValidationSubsets(df)
-    return  X_train, X_val, y_train, y_val
-
-def get_data_train_validation_test(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
-    installModules()
-    df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
-    df = clean_data(df)
-    df = fix_data_types(df)
-    df = remove_unusual_variables(df)
-    df = remove_outliers(df)
-
-    X_train, X_val, X_test, y_train, y_val, y_test = createTrainValidationTestSubsets(df)
-    return X_train, X_val, X_test, y_train, y_val, y_test
-
-
-#Função get_train_data criada para uso apenas no Spotchecking. Retorna os conjuntos de treino e teste, utilizando apenas o conjunto de dados oficial de treino. Busca evitar vazamento de dados.
 def get_train_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
@@ -170,11 +142,21 @@ def get_train_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD
     df = fix_data_types(df)
     df = remove_unusual_variables(df)
     df = remove_outliers(df)
-    X_train, _, y_train, _ = createTrainValidationSubsets(df)
 
-    X_train_, X_test_, y_train_, y_test_ = createTrainValidationSubsets(pd.concat([X_train, y_train]))
+    X_train, y_train = createTrainSubset(df)
+    return  X_train, y_train
 
-    return X_train_, X_test_, y_train_, y_test_
+def get_train_test_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+    installModules()
+    df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+    df = clean_data(df)
+    df = fix_data_types(df)
+    df = remove_unusual_variables(df)
+    df = remove_outliers(df)
+
+    X_train, X_test, y_train, y_test = createTrainTestSubsets(df)
+    return X_train, X_test, y_train, y_test
+
 
 def get_raw_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
