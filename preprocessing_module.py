@@ -158,6 +158,7 @@ def get_train_test_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PAS
     return X_train, X_test, y_train, y_test
 
 
+
 def get_raw_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
