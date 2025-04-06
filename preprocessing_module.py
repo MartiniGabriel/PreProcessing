@@ -137,7 +137,7 @@ def createTestSubset(df):
 
 def get_train_data(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
-    query = f"select * from dados1 where split = 'train' ", limit
+    query = "select * from dados1 where split = 'train' " + limit
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
     df = clean_data(df)
     df = fix_data_types(df)
@@ -149,7 +149,7 @@ def get_train_data(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD
 
 def get_test_data(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
-    query = f"select * from dados1 where split = 'test'", limit
+    query = "select * from dados1 where split = 'test'" + limit
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
     df = clean_data(df)
     df = fix_data_types(df)
