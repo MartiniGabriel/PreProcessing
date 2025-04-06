@@ -127,35 +127,37 @@ def createTrainSubset(df):
 
     return X_train, y_train
 
-def createTrainTestSubsets(df):
+def createTestSubset(df):
     X = df.drop(['Classe A1c', 'Classe A1c2', 'A1C'], axis=1)
     y = df['Classe A1c2']
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    _, X_test, _, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     
-    return X_train, X_test, y_train, y_test
+    return X_test, y_test
 
-def get_train_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+def get_train_data(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
+    query = f"select * from dados1 where split = 'train' ", limit
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
     df = clean_data(df)
     df = fix_data_types(df)
     df = remove_unusual_variables(df)
     df = remove_outliers(df)
-
     X_train, y_train = createTrainSubset(df)
+
     return  X_train, y_train
 
-def get_train_test_data(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+def get_test_data(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
+    query = f"select * from dados1 where split = 'test'", limit
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
     df = clean_data(df)
     df = fix_data_types(df)
     df = remove_unusual_variables(df)
     df = remove_outliers(df)
 
-    X_train, X_test, y_train, y_test = createTrainTestSubsets(df)
-    return X_train, X_test, y_train, y_test
+    X_test, y_test = createTestSubset(df)
+    return X_test, y_test
 
 
 
