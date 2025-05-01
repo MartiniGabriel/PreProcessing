@@ -124,11 +124,11 @@ def createSubsets(table, limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PA
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
     df = clean_data(df)
     df = fix_data_types(df)
-    df = remove_unusual_variables(df)
+    #df = remove_unusual_variables(df)
     df = remove_outliers(df)
     return df
 
-def get_data(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+def get_data_3classes(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     installModules()
     
     X_train = createSubsets('X_train', limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
@@ -136,6 +136,17 @@ def get_data(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_N
 
     X_test = createSubsets('X_test', limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
     y_test = createSubsets('y_test', limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+
+    return  X_train, y_train, X_test, y_test
+
+def get_data_2classes(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
+    installModules()
+    
+    X_train = createSubsets('X_train_2classes', limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+    y_train = createSubsets('y_train_2classes', limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+
+    X_test = createSubsets('X_test_2classes', limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+    y_test = createSubsets('y_test_2classes', limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
 
     return  X_train, y_train, X_test, y_test
 
