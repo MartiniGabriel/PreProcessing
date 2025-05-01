@@ -87,16 +87,7 @@ def fix_data_types(df):
     return df
 
 def remove_unusual_variables(df):
-    df.drop('CodigoOs', axis=1, inplace=True)
-    df.drop('Data Nascimento', axis=1, inplace=True)
-    df.drop('Classe Idade', axis=1, inplace=True)
-    df.drop('HCM_1', axis=1, inplace=True)
-    df.drop('GME', axis=1, inplace=True)
-    df.drop('G', axis=1, inplace=True)
-    df.drop('Paciente', axis=1, inplace=True)
-    df.drop('Data Cadastro', axis=1, inplace=True)
-    df.drop('Data Cadastro Date', axis=1, inplace=True)
-    df.drop('Data Nascimento Data', axis=1, inplace=True)
+    df.drop('id', axis=1, inplace=True)
     return df
 
 def remove_outliers(df):
@@ -122,10 +113,7 @@ def remove_outliers(df):
 def createSubsets(table, limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
     query = "select * from " + table + limit
     df = fetch_data_in_batches(query, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
-    df = clean_data(df)
-    df = fix_data_types(df)
-    #df = remove_unusual_variables(df)
-    df = remove_outliers(df)
+    print(df.info())
     return df
 
 def get_data_3classes(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME):
@@ -150,5 +138,11 @@ def get_data_2classes(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSW
 
     return  X_train, y_train, X_test, y_test
 
+MYSQL_HOST = 'mysqlmestradogabrielmartini-mestradogabrielmartini.h.aivencloud.com'
+MYSQL_PORT = 12659
+MYSQL_USERNAME = 'avnadmin'
+MYSQL_PASSWORD = 'AVNS_fDL87YjvKGDqrgbrww_'
+DB_NAME = 'dados'
 
-
+X_train, y_train, X_test, y_test = get_data_3classes(" limit 1000", MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
+X_train.head()
