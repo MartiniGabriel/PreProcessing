@@ -138,11 +138,3 @@ def get_data_2classes(limit, MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSW
 
     return  X_train, y_train, X_test, y_test
 
-MYSQL_HOST = 'mysqlmestradogabrielmartini-mestradogabrielmartini.h.aivencloud.com'
-MYSQL_PORT = 12659
-MYSQL_USERNAME = 'avnadmin'
-MYSQL_PASSWORD = 'AVNS_fDL87YjvKGDqrgbrww_'
-DB_NAME = 'dados'
-
-X_train, y_train, X_test, y_test = get_data_3classes(" limit 1000", MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, DB_NAME)
-X_train.head()
